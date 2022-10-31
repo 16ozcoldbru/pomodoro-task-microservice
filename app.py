@@ -1,8 +1,6 @@
 from operator import le
 from flask import Flask
 from flask_restful import Resource, Api, reqparse, abort, marshal, fields
-from sqlalchemy import Integer, delete
-from datetime import datetime
 import time
 
 app = Flask(__name__)
@@ -123,4 +121,4 @@ api.add_resource(TaskList, "/tasks")
 api.add_resource(Task, "/task/<int:id>")
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=8080)
