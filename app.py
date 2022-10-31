@@ -55,11 +55,9 @@ class Task(Resource):
         return{"task": marshal(task, taskFields)}
 
     # PUT 
-    def put(self):
-        args = self.reqparse.parse_args()
-        task_id = args["id"]
+    def put(self, id):
 
-        task = [task for task in tasks if task["id"] == task_id]
+        task = [task for task in tasks if task["id"] == id]
 
         if(len(task) == 0):
             abort(404)
@@ -101,6 +99,8 @@ class TaskList(Resource):
             "action", type=str, required=True, help="The action must be specified", location="json")
         self.reqparse.add_argument(
             "start_time", type=int, required=False, location="json")
+        self.reqparse.add_argument(
+            "duration", type=int, required=False, location="json")
 
     def get(self):
         return{"List of tasks": [marshal(task, taskFields) for task in tasks]}
@@ -109,19 +109,24 @@ class TaskList(Resource):
         args = self.reqparse.parse_args()
 
         start_time = time.time()
-        task = {
+
+        new_task = {
             "id": args["id"],
             "action": args["action"],
-            "start_time": start_time
+            "start_time": start_time,
+            "duration": 0
         }
-    
-        tasks.append(task)
 
-        return{"task": marshal(task, taskFields)}, 201
+        for task in tasks:
+            if task["id"] == args["id"]:
+                return{"already exists": marshal(task, taskFields)}, 418
+
+        tasks.append(new_task)
+
+        return{"task": marshal(new_task, taskFields)}, 201
 
 api.add_resource(TaskList, "/tasks")
 api.add_resource(Task, "/task/<int:id>")
-api.add_resource(Task, "/task")
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
