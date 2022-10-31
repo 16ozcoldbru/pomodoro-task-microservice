@@ -55,9 +55,11 @@ class Task(Resource):
         return{"task": marshal(task, taskFields)}
 
     # PUT 
-    def put(self, id):
+    def put(self):
+        args = self.reqparse.parse_args()
+        task_id = args["id"]
 
-        task = [task for task in tasks if task["id"] == id]
+        task = [task for task in tasks if task["id"] == task_id]
 
         if(len(task) == 0):
             abort(404)
@@ -119,6 +121,7 @@ class TaskList(Resource):
 
 api.add_resource(TaskList, "/tasks")
 api.add_resource(Task, "/task/<int:id>")
+api.add_resource(Task, "/task")
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
