@@ -53,7 +53,8 @@ class Task(Resource):
         # Here the service takes the current time and subtracts from this the starting
         # time to get the time elapsed
         start_time = current_task.get("start_time")
-        duration = round((time.time() - start_time) / 60) + current_task.get("duration")
+        # show duration in seconds (add '/60' to show in minutes)
+        duration = round((time.time() - start_time)) + current_task.get("duration")
 
         return{"task": marshal(current_task, taskFields), "total_duration": duration}
 
