@@ -60,8 +60,8 @@ class Task(Resource):
 
         task = [task for task in tasks if task["id"] == id]
 
-        if(len(task) == 0):
-            abort(404)
+        # if(len(task) == 0):
+        #     abort(404)
 
         task = task[0]
 
@@ -138,5 +138,5 @@ api.add_resource(TaskList, "/tasks")
 api.add_resource(Task, "/task/<int:id>")
 
 if __name__ == "__main__":
-    # app.run(debug=True, port=8080)
-    app.run()
+    app.run(debug=True, port=8080)
+    #app.run()
