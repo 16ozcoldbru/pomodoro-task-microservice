@@ -45,8 +45,8 @@ class Task(Resource):
 
         task = [task for task in tasks if task["id"] == id]
 
-        if(len(task) == 0):
-            abort(404)
+        # if(len(task) == 0):
+        #    abort(404)
 
         task = task[0]
 
@@ -59,7 +59,6 @@ class Task(Resource):
 
     # POST allows the user to start and stop a specific task
     def post(self, id):
-
         task = [task for task in tasks if task["id"] == id]
 
         # if(len(task) == 0):
