@@ -1,7 +1,7 @@
 from flask import Flask
-from flask_cors import CORS
 from flask_restful import Resource, Api, reqparse, abort, marshal, fields
 import time
+from flask_cors import CORS
 
 app = Flask(__name__)
 api = Api(app)
@@ -126,6 +126,14 @@ class TaskList(Resource):
 
         return{"task": marshal(new_task, taskFields)}, 201
 
+class status (Resource):
+    def get(self):
+        try:
+            return {'data': 'API is Running!'}
+        except:
+            return {'data': 'An Error Occurred during fetching API'}
+
+api.add_resource(status, "/")
 api.add_resource(TaskList, "/tasks")
 api.add_resource(Task, "/task/<int:id>")
 
