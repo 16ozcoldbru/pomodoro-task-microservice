@@ -55,8 +55,8 @@ class Task(Resource):
 
         return{"task": marshal(task, taskFields)}
 
-    # PUT 
-    def put(self, id):
+    # POST allows the user to start and stop a specific task
+    def post(self, id):
 
         task = [task for task in tasks if task["id"] == id]
 
