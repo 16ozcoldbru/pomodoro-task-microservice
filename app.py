@@ -48,12 +48,14 @@ class Task(Resource):
         if(len(task) == 0):
             abort(404)
 
+        task = task[0]
+
         # Here the service takes the current time and subtracts from this the starting
         # time to get the time elapsed
-        start_time = task[0].get("start_time")
-        duration = round((time.time() - start_time) / 60)
+        start_time = task.get("start_time")
+        duration = round((time.time() - start_time) / 60) + task.get("duration")
 
-        return{"task": marshal(task, taskFields)}
+        return{"task": marshal(task, taskFields), "total_duration": duration}
 
     # POST allows the user to start and stop a specific task
     def post(self, id):
